@@ -1,0 +1,186 @@
+﻿/* CICT Borrower System Custom Styles */
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Global font */
+body {
+    font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+/* Enforce Poppins everywhere (including Tailwind utilities) */
+html, body, button, input, select, textarea {
+    font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+.font-sans, .font-serif, .font-mono {
+    font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+}
+
+/* Custom animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Gentle bounce utility for hero chevron */
+@keyframes bounceSlow {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(6px);
+    }
+}
+
+.animate-bounce-slow {
+    animation: bounceSlow 2.4s ease-in-out infinite;
+}
+
+/* Equipment card hover effects */
+.equipment-card {
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.equipment-card:hover {
+    transform: translateY(-8px);
+    border-color: #E5E7EB;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Custom button styles */
+.btn-primary {
+    background: linear-gradient(135deg, #3B82F6, #1D4ED8);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #1D4ED8, #1E40AF);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+}
+
+.btn-secondary {
+    border: 2px solid #3B82F6;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: #3B82F6;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+}
+
+/* Stats counter animation */
+.stat-number {
+    font-size: 3rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #FFFFFF, #E0E7FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Material icon baseline alignment helper */
+.material-icons.align-middle { 
+    vertical-align: middle;
+    font-size: 20px;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+        line-height: 1.2;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.125rem;
+    }
+    
+    .equipment-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+    }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #3B82F6;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #1D4ED8;
+}
+
+/* Focus states for accessibility */
+a:focus,
+button:focus {
+    outline: 2px solid #3B82F6;
+    outline-offset: 2px;
+}
+
+/* Equipment category gradients */
+.laptop-gradient {
+    background: linear-gradient(135deg, #3B82F6, #1D4ED8);
+}
+
+.projector-gradient {
+    background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+}
+
+.audio-gradient {
+    background: linear-gradient(135deg, #10B981, #059669);
+}
+
+.network-gradient {
+    background: linear-gradient(135deg, #F59E0B, #D97706);
+}
+
+.lab-gradient {
+    background: linear-gradient(135deg, #EF4444, #DC2626);
+}
+
+.mobile-gradient {
+    background: linear-gradient(135deg, #6366F1, #4F46E5);
+}
