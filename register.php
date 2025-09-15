@@ -4,6 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Register • CICT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #0b1020;
@@ -22,7 +25,7 @@
     html, body { height: 100%; }
     body {
       margin: 0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
       background: radial-gradient(1200px 800px at 80% -10%, rgba(79,140,255,.25), transparent 60%),
                   radial-gradient(1000px 700px at -10% 110%, rgba(79,140,255,.18), transparent 60%),
                   var(--bg);
@@ -142,7 +145,7 @@
     <main class="card" role="main">
       <div class="brand" aria-label="Site">
         <img src="cictlogo.png" alt="CICT logo" onerror="this.style.display='none'">
-        <div>
+                <div>
           <h1>Create your account</h1>
           <span>Join CICT to get started</span>
         </div>
@@ -242,12 +245,12 @@
             Caps Lock is on
           </span>
           <span id="passwordHelp" class="visually-hidden">Use the toggle button to show or hide password.</span>
-        </div>
+                </div>
 
         <div class="field">
           <div class="label-row">
             <label for="confirm">Confirm Password</label>
-          </div>
+                </div>
           <div class="input-wrap">
             <span class="left-icon" aria-hidden="true">
               <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
@@ -258,7 +261,7 @@
                 <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
               </button>
             </span>
-          </div>
+                </div>
           <span id="confirmCaps" class="caps" aria-hidden="true" role="status" aria-live="polite">
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l9 9h-6v11H9V11H3l9-9z"/></svg>
             Caps Lock is on
@@ -285,7 +288,7 @@
 
         <p class="alt">Already have an account? <a href="login.php">Sign in</a></p>
       </form>
-    </main>
+</main>
   </div>
 
   <script>
