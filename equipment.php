@@ -40,46 +40,74 @@ $name = isset($_SESSION['name']) ? $_SESSION['name'] : 'User';
     /* DataTables custom styling for dark theme */
     .dataTables_wrapper .dataTables_length select,
     .dataTables_wrapper .dataTables_filter input{
-      @apply bg-slate-800 text-white border-slate-600 rounded-lg px-3 py-2;
+      @apply bg-slate-700 text-slate-200 border-slate-600 rounded-lg px-3 py-2 placeholder-slate-400;
+    }
+    .dataTables_wrapper .dataTables_length label,
+    .dataTables_wrapper .dataTables_filter label{
+      @apply text-slate-300 text-sm font-medium;
     }
     .dataTables_wrapper .dataTables_paginate .paginate_button{
-      @apply bg-slate-800 text-white border-slate-600 rounded-lg px-3 py-1 mx-1;
+      @apply bg-slate-700 text-slate-200 border-slate-600 rounded-lg px-3 py-1 mx-1 hover:bg-slate-600 transition-colors;
     }
     .dataTables_wrapper .dataTables_paginate .paginate_button.current{
       @apply bg-gradient-to-b from-blue-500 to-blue-600 text-white border-blue-500;
     }
     .dataTables_wrapper .dataTables_paginate .paginate_button:hover{
-      @apply bg-slate-700;
+      @apply bg-slate-600 text-slate-100;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.disabled{
+      @apply bg-slate-800 text-slate-500 border-slate-700 cursor-not-allowed;
     }
     .dataTables_wrapper .dataTables_info{
-      @apply text-slate-400;
+      @apply text-slate-300 text-sm;
     }
     .dt-head{
-      @apply flex justify-between items-center gap-3 mb-3 flex-wrap;
+      @apply flex justify-between items-center gap-4 mb-4 flex-wrap bg-slate-800 p-4 rounded-lg border border-slate-600;
     }
     .dt-head .dataTables_length,
     .dt-head .dataTables_filter{
       @apply m-0;
     }
-    .dt-head .dataTables_filter input{
-      @apply w-60 max-w-[60vw];
+    .dt-head .dataTables_length{
+      @apply flex items-center gap-2;
     }
-    @media (max-width: 520px){
+    .dt-head .dataTables_filter{
+      @apply flex items-center gap-2;
+    }
+    .dt-head .dataTables_filter input{
+      @apply w-64 max-w-[60vw];
+    }
+    .dt-foot{
+      @apply flex justify-between items-center gap-4 mt-4 bg-slate-800 p-4 rounded-lg border border-slate-600;
+    }
+    .dt-foot .dataTables_info{
+      @apply text-slate-300 text-sm;
+    }
+    .dt-foot .dataTables_paginate{
+      @apply flex gap-1;
+    }
+    @media (max-width: 640px){
       .dt-head{
-        @apply flex-col items-stretch;
+        @apply flex-col items-stretch gap-3;
       }
       .dt-head .dataTables_filter input{
         @apply w-full;
+      }
+      .dt-foot{
+        @apply flex-col items-stretch gap-3;
+      }
+      .dt-foot .dataTables_paginate{
+        @apply justify-center;
       }
     }
   </style>
   <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css">
 </head>
-<body class="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white font-sans">
-  <div class="min-h-screen p-6 grid gap-4">
-    <div class="bg-gradient-to-b from-slate-800 to-slate-900 border border-slate-700 rounded-xl p-6 shadow-2xl">
-      <h1 class="text-xl font-bold mb-2">Equipment Management</h1>
-      <p class="text-slate-400 mb-4">Manage equipment inventory based on the `equipment` table.</p>
+<body class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white font-sans">
+  <div class="grid gap-4">
+    <div class="bg-gradient-to-b from-slate-800 to-slate-900 border border-slate-700 rounded-xl p-4 shadow-2xl">
+      <h1 class="text-xl font-bold mb-1">Equipment Management</h1>
+      <p class="text-slate-400 mb-3 text-sm">Manage equipment inventory based on the `equipment` table.</p>
       <div class="flex gap-3">
         <button class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-blue-500 bg-gradient-to-b from-blue-500 to-blue-600 text-white font-semibold hover:brightness-110 transition-all" id="openAdd">
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
@@ -90,20 +118,20 @@ $name = isset($_SESSION['name']) ? $_SESSION['name'] : 'User';
     </div>
 
     <div class="bg-gradient-to-b from-slate-800 to-slate-900 border border-slate-700 rounded-xl p-6 shadow-2xl">
-      <div class="bg-white rounded-lg overflow-hidden shadow-inner">
+      <div class="bg-slate-800 rounded-lg overflow-hidden shadow-inner border border-slate-600">
         <div class="p-2 max-h-[60vh] overflow-auto">
           <table id="equipmentTable" class="w-full border-collapse">
             <thead>
               <tr>
-                <th class="sticky top-0 z-10 bg-slate-50 text-slate-700 border-b border-slate-200 px-3 py-3 text-left text-xs font-medium">ID</th>
-                <th class="sticky top-0 z-10 bg-slate-50 text-slate-700 border-b border-slate-200 px-3 py-3 text-left text-xs font-medium">Name</th>
-                <th class="sticky top-0 z-10 bg-slate-50 text-slate-700 border-b border-slate-200 px-3 py-3 text-left text-xs font-medium">Description</th>
-                <th class="sticky top-0 z-10 bg-slate-50 text-slate-700 border-b border-slate-200 px-3 py-3 text-left text-xs font-medium">Total</th>
-                <th class="sticky top-0 z-10 bg-slate-50 text-slate-700 border-b border-slate-200 px-3 py-3 text-left text-xs font-medium">Available</th>
-                <th class="sticky top-0 z-10 bg-slate-50 text-slate-700 border-b border-slate-200 px-3 py-3 text-left text-xs font-medium">Condition</th>
+                <th class="sticky top-0 z-10 bg-slate-700 text-slate-200 border-b border-slate-600 px-3 py-3 text-left text-xs font-medium">ID</th>
+                <th class="sticky top-0 z-10 bg-slate-700 text-slate-200 border-b border-slate-600 px-3 py-3 text-left text-xs font-medium">Name</th>
+                <th class="sticky top-0 z-10 bg-slate-700 text-slate-200 border-b border-slate-600 px-3 py-3 text-left text-xs font-medium">Description</th>
+                <th class="sticky top-0 z-10 bg-slate-700 text-slate-200 border-b border-slate-600 px-3 py-3 text-left text-xs font-medium">Total</th>
+                <th class="sticky top-0 z-10 bg-slate-700 text-slate-200 border-b border-slate-600 px-3 py-3 text-left text-xs font-medium">Available</th>
+                <th class="sticky top-0 z-10 bg-slate-700 text-slate-200 border-b border-slate-600 px-3 py-3 text-left text-xs font-medium">Condition</th>
               </tr>
             </thead>
-            <tbody class="bg-white">
+            <tbody class="bg-slate-800">
             </tbody>
           </table>
         </div>
@@ -143,8 +171,7 @@ $name = isset($_SESSION['name']) ? $_SESSION['name'] : 'User';
           <label for="equipment_condition" class="text-xs font-medium text-slate-300">Condition</label>
           <select id="equipment_condition" name="equipment_condition" class="w-full px-3 py-2 rounded-lg border border-slate-600 bg-slate-700 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
             <option value="Good">Good</option>
-            <option value="Fair">Fair</option>
-            <option value="Poor">Poor</option>
+            <option value="Fair">Damaged</option>
           </select>
         </div>
         <div class="flex gap-3 justify-end mt-4">
@@ -188,12 +215,12 @@ $name = isset($_SESSION['name']) ? $_SESSION['name'] : 'User';
           searching: true,
           info: true,
           order: [[1,'asc']],
-          dom: '<"dt-head"lf>rt<"dt-foot"ip>',
+          dom: '<"dt-head"fl>rt<"dt-foot"ip>',
           lengthMenu: [[10, 25, 50, 100], [10, 25, 50, 100]],
           pageLength: 10,
           autoWidth: false,
           scrollX: true,
-          stripeClasses: ['bg-slate-50',''],
+          stripeClasses: ['bg-slate-700',''],
           columnDefs: [
             { width: 70, targets: 0 },
             { width: 220, targets: 1 },
@@ -204,8 +231,8 @@ $name = isset($_SESSION['name']) ? $_SESSION['name'] : 'User';
             searchPlaceholder: 'Search equipment…'
           },
           createdRow: function(row, data, dataIndex) {
-            $(row).addClass('hover:bg-slate-50 transition-colors');
-            $(row).find('td').addClass('px-3 py-3 text-sm text-slate-700 border-b border-slate-200');
+            $(row).addClass('hover:bg-slate-700 transition-colors');
+            $(row).find('td').addClass('px-3 py-3 text-sm text-slate-200 border-b border-slate-600');
           }
         });
       });
