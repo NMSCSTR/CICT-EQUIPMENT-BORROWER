@@ -10,7 +10,6 @@ $sql = "SELECT bt.transaction_id,
                bt.return_date,
                bt.quantity_borrowed,
                bt.status,
-               bt.expected_return_date,
                bt.purpose
         FROM borrow_transaction bt
         JOIN users u ON u.user_id = bt.user_id
@@ -52,7 +51,6 @@ include __DIR__ . '/includes/admin_header.php';
                             <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Borrowed</th>
                             <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Returned</th>
                             <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Qty</th>
-                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Expected Return</th>
                             <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                             <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Purpose</th>
                         </tr>
@@ -67,7 +65,6 @@ include __DIR__ . '/includes/admin_header.php';
                                 <td class="px-3 py-3 whitespace-nowrap text-sm text-gray-700"><?php echo htmlspecialchars($tx['borrow_date']); ?></td>
                                 <td class="px-3 py-3 whitespace-nowrap text-sm text-gray-700"><?php echo htmlspecialchars($tx['return_date'] ?? ''); ?></td>
                                 <td class="px-3 py-3 whitespace-nowrap text-sm text-gray-700"><?php echo (int)$tx['quantity_borrowed']; ?></td>
-                                <td class="px-3 py-3 whitespace-nowrap text-sm text-gray-700"><?php echo htmlspecialchars($tx['expected_return_date'] ?? ''); ?></td>
                                 <td class="px-3 py-3 whitespace-nowrap text-sm">
                                     <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-50 text-green-700"><?php echo htmlspecialchars($tx['status'] ?? ''); ?></span>
                                 </td>

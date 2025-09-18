@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 require_once __DIR__ . '/../config.php';
 
 $request_id = isset($_POST['request_id']) ? (int)$_POST['request_id'] : 0;
-$expected_return_date = isset($_POST['expected_return_date']) ? trim((string)$_POST['expected_return_date']) : '';
 if ($request_id <= 0) { header('Location: ../item_request.php?error=' . urlencode('Invalid request.')); exit; }
 
 // Begin transaction
@@ -53,9 +52,8 @@ try {
     // Insert borrow transaction
     $now = date('Y-m-d H:i:s');
     $status = 'approved';
-    // expected_return_date requires db column; if missing, this will error.
-    $stmt = mysqli_prepare($conn, 'INSERT INTO borrow_transaction (user_id, equipment_id, borrow_date, return_date, quantity_borrowed, status, purpose, class_schedule_id, expected_return_date) VALUES (?, ?, ?, NULL, ?, ?, NULL, NULL, ?)');
-    mysqli_stmt_bind_param($stmt, 'iisiss', $user_id, $equipment_id, $now, $qty, $status, $expected_return_date);
+    $stmt = mysqli_prepare($conn, 'INSERT INTO borrow_transaction (user_id, equipment_id, borrow_date, return_date, quantity_borrowed, status, purpose, class_schedule_id) VALUES (?, ?, ?, NULL, ?, ?, NULL, NULL)');
+    mysqli_stmt_bind_param($stmt, 'iisis', $user_id, $equipment_id, $now, $qty, $status);
     if (!mysqli_stmt_execute($stmt)) { throw new Exception('Failed to create transaction.'); }
     mysqli_stmt_close($stmt);
 
