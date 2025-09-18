@@ -189,7 +189,7 @@
         <div class="field">
           <div class="label-row">
             <label for="email">Email</label>
-            <span class="hint" id="emailHint">We’ll send a confirmation</span>
+            <!-- <span class="hint" id="emailHint">We’ll send a confirmation</span> -->
           </div>
           <div class="input-wrap">
             <span class="left-icon" aria-hidden="true">
