@@ -1,44 +1,101 @@
 <?php
-session_start();
-if (!isset($_SESSION['user_id'])) {
-	header('Location: login.php?error=' . urlencode('Please sign in to continue.'));
-	exit;
+$title = 'Borrow Transactions';
+require_once __DIR__ . '/config.php';
+
+$sql = "SELECT bt.transaction_id,
+               u.name AS user_name,
+               u.email AS user_email,
+               e.equipment_name,
+               bt.borrow_date,
+               bt.return_date,
+               bt.quantity_borrowed,
+               bt.status,
+               bt.purpose
+        FROM borrow_transaction bt
+        JOIN users u ON u.user_id = bt.user_id
+        JOIN equipment e ON e.equipment_id = bt.equipment_id
+        ORDER BY bt.borrow_date DESC";
+
+$result = mysqli_query($conn, $sql);
+$rows = [];
+if ($result) {
+    while ($r = mysqli_fetch_assoc($result)) { $rows[] = $r; }
+} else {
+    $error = mysqli_error($conn);
 }
-$name = isset($_SESSION['name']) ? $_SESSION['name'] : 'User';
+
+include __DIR__ . '/includes/admin_header.php';
 ?>
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Borrow Transactions • CICT</title>
-  <style>
-    :root { --bg:#0b1020; --card:#111936; --card-2:#0f1730; --text:#e7ecf3; --muted:#a8b3c7; --primary:#4f8cff; --primary-600:#3e74e0; --focus:0 0 0 3px rgba(79,140,255,.35); --radius:14px; }
-    *{box-sizing:border-box} html,body{height:100%}
-    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; background:radial-gradient(1200px 800px at 80% -10%, rgba(79,140,255,.25), transparent 60%), radial-gradient(1000px 700px at -10% 110%, rgba(79,140,255,.18), transparent 60%), var(--bg); color:var(--text)}
-    .wrap{min-height:100dvh; padding:22px; display:grid; gap:16px}
-    .card{background:linear-gradient(180deg,var(--card),var(--card-2)); border:1px solid rgba(255,255,255,.06); border-radius:var(--radius); padding:18px; box-shadow:0 10px 40px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.05)}
-    h1{margin:0 0 6px 0; font-size:20px}
-    p{margin:0; color:var(--muted)}
-    a.btn{display:inline-block; margin-top:12px; padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,.08); color:#e7ecf3; text-decoration:none; background:rgba(8,14,32,.6)}
-    a.btn:hover{background:rgba(8,14,32,.8)}
-  </style>
-</head>
-<body>
-  <div class="wrap">
-    <div class="card">
-      <h1>Borrow Transactions</h1>
-      <p>Track and manage borrow requests from the `borrow_transaction` table.</p>
-      <a class="btn" href="dashboard.php">Back to Dashboard</a>
+<main class="flex-1">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-xl font-semibold text-gray-900">Borrow Transactions</h2>
+        </div>
+
+        <?php if (!empty($error)): ?>
+            <div class="rounded-md bg-red-50 p-4 mb-6 ring-1 ring-red-200">
+                <h3 class="text-sm font-medium text-red-800">Error</h3>
+                <p class="mt-1 text-sm text-red-700"><?php echo htmlspecialchars($error); ?></p>
+            </div>
+        <?php endif; ?>
+
+        <div class="bg-white shadow-sm ring-1 ring-gray-200 rounded-lg p-4">
+            <div class="overflow-x-auto">
+                <table id="btTable" class="min-w-full divide-y divide-gray-200 display nowrap" style="width:100%">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Txn ID</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Equipment</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Borrowed</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Returned</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Qty</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <?php foreach ($rows as $tx): ?>
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-3 py-3 whitespace-nowrap text-sm text-gray-900"><?php echo (int)$tx['transaction_id']; ?></td>
+                                <td class="px-3 py-3 whitespace-nowrap text-sm text-gray-900"><?php echo htmlspecialchars($tx['user_name']); ?></td>
+                                <td class="px-3 py-3 whitespace-nowrap text-sm text-gray-700"><?php echo htmlspecialchars($tx['user_email']); ?></td>
+                                <td class="px-3 py-3 whitespace-nowrap text-sm text-gray-900"><?php echo htmlspecialchars($tx['equipment_name']); ?></td>
+                                <td class="px-3 py-3 whitespace-nowrap text-sm text-gray-700"><?php echo htmlspecialchars($tx['borrow_date']); ?></td>
+                                <td class="px-3 py-3 whitespace-nowrap text-sm text-gray-700"><?php echo htmlspecialchars($tx['return_date'] ?? ''); ?></td>
+                                <td class="px-3 py-3 whitespace-nowrap text-sm text-gray-700"><?php echo (int)$tx['quantity_borrowed']; ?></td>
+                                <td class="px-3 py-3 whitespace-nowrap text-sm">
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-50 text-green-700"><?php echo htmlspecialchars($tx['status'] ?? ''); ?></span>
+                                </td>
+                                <td class="px-3 py-3 whitespace-nowrap text-sm text-gray-700 max-w-xs truncate" title="<?php echo htmlspecialchars($tx['purpose'] ?? ''); ?>"><?php echo htmlspecialchars($tx['purpose'] ?? ''); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-  </div>
-  <script>
-    (function(){
-      const params = new URLSearchParams(window.location.search);
-      const ok = params.get('success'); const err = params.get('error');
-      function showSwal(){ if(typeof Swal==='undefined')return; if(ok){Swal.fire({icon:'success',title:'Success',text:ok,confirmButtonColor:'#4f8cff'});} if(err){Swal.fire({icon:'error',title:'Notice',text:err,confirmButtonColor:'#4f8cff'});} }
-      if(!document.getElementById('swal2-script')){const s=document.createElement('script'); s.id='swal2-script'; s.src='https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js'; s.onload=showSwal; document.head.appendChild(s);} else { showSwal(); }
-    })();
-  </script>
-</body>
-</html> 
+</main>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+<script>
+    $(function(){
+        $('#btTable').DataTable({
+            responsive: true,
+            pageLength: 10,
+            order: [[4, 'desc']],
+            columnDefs: [
+                { targets: 0, width: 80 },
+                { targets: 8, orderable: false }
+            ]
+        });
+    });
+</script>
+
+<?php include __DIR__ . '/includes/footer.php'; ?>
+
