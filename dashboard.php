@@ -156,6 +156,10 @@ $userType = isset($_SESSION['user_type']) ? ucfirst($_SESSION['user_type']) : 'U
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M3 7h18"/><path d="M8 13h8M8 10h4"/></svg>
             Borrow Transactions
           </a>
+          <a href="student_dashboard.php#request" aria-label="Request item">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6h-8"/><path d="M16 18H4"/><path d="M20 12H8"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></svg>
+            Request Item
+          </a>
         </div>
       </section>
     </main>

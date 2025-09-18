@@ -64,5 +64,15 @@ $_SESSION['student_id'] = $student_id;
 // Optional: regenerate session ID to prevent fixation
 session_regenerate_id(true);
 
-header('Location: ../dashboard.php?success=' . urlencode('Welcome back, ' . $name . '!'));
-exit; 
+// Redirect based on role
+$role = strtolower($user_type);
+if ($role === 'instructor') {
+    $dest = '../instructor_dashboard.php';
+} elseif ($role === 'student') {
+    $dest = '../student_dashboard.php';
+} else {
+    $dest = '../dashboard.php';
+}
+
+header('Location: ' . $dest . '?success=' . urlencode('Welcome back, ' . $name . '!'));
+exit;

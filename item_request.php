@@ -77,6 +77,14 @@ include __DIR__ . '/includes/admin_header.php';
                                 <td class="px-3 py-3 whitespace-nowrap text-sm text-gray-700"><?php echo htmlspecialchars($r['approver_name'] ?? ''); ?></td>
                                 <td class="px-3 py-3 whitespace-nowrap text-sm">
                                     <div class="flex items-center gap-2">
+                                        <?php $isApproved = strtolower((string)$r['status']) === 'approved'; ?>
+                                        <?php if (!$isApproved): ?>
+                                        <form action="controller/item_request_approve.php" method="post" class="flex items-center gap-2" onsubmit="return confirm('Approve this request with expected return date?');">
+                                            <input type="hidden" name="request_id" value="<?php echo (int)$r['request_id']; ?>">
+                                            <input type="date" name="expected_return_date" class="border border-gray-300 rounded px-2 py-1 text-xs" value="<?php echo date('Y-m-d', strtotime('+7 days')); ?>" required>
+                                            <button type="submit" class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-green-50 text-green-700 hover:bg-green-100">Approve</button>
+                                        </form>
+                                        <?php endif; ?>
                                         <a href="item_request_edit.php?request_id=<?php echo (int)$r['request_id']; ?>" class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-amber-50 text-amber-700 hover:bg-amber-100">Edit</a>
                                         <form action="controller/item_request_delete.php" method="post" onsubmit="return confirm('Delete this request?');">
                                             <input type="hidden" name="request_id" value="<?php echo (int)$r['request_id']; ?>">
