@@ -19,7 +19,7 @@ if ($result) {
     $error = mysqli_error($conn);
 }
 
-include __DIR__ . '/includes/header.php';
+include __DIR__ . '/includes/admin_header.php';
 ?>
 
 <main class="flex-1">

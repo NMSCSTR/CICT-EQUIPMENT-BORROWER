@@ -11,7 +11,7 @@ if ($result) {
     $error = mysqli_error($conn);
 }
 
-include __DIR__ . '/includes/header.php';
+include __DIR__ . '/includes/admin_header.php';
 ?>
 <main class="flex-1">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
